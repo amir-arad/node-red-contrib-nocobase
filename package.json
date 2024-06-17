@@ -1,0 +1,35 @@
+{
+  "name": "red-contrib-nocobase",
+  "version": "0.1.0",
+  "description": "A Node-RED node to interact with NocoBase API using NocoBase SDK",
+  "main": "nodes/nocobase.js",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "node-red": {
+    "nodes": {
+      "nocobase": "nodes/nocobase.js"
+    }
+  },
+  "keywords": [
+    "node-red",
+    "nocobase"
+  ],
+  "author": "amir-arad <greenshade@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "dependencies": {
+    "@nocobase/sdk": "1.2.4-alpha"
+  },
+  "devDependencies": {
+    "@nocobase/server": "1.2.4-alpha",
+    "node-red": "^3.1.10",
+    "node-red-node-test-helper": "^0.3.4"
+  }
+}

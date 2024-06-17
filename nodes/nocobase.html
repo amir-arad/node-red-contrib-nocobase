@@ -1,0 +1,86 @@
+<script type="text/javascript">
+  RED.nodes.registerType("nocobase", {
+    category: "function",
+    color: "#a6bbcf",
+    defaults: {
+      name: { value: "" },
+      baseURL: { value: "http://localhost:13000/api", required: true },
+      resource: { value: "", required: false },
+      method: { value: "list", required: true },
+      action: { value: "", required: false },
+      // plugin: { value: "", required: false },
+      schema: { value: false, required: false },
+      model: { value: false, required: false },
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "file.png",
+    label: function () {
+      return this.name || "nocobase";
+    },
+    oneditprepare: function () {
+      $("#node-input-method").change(function () {
+        var method = $(this).val();
+        if (method === "customAction" || method === "plugin") {
+          $("#node-input-resource").parent().hide();
+        } else {
+          $("#node-input-resource").parent().show();
+        }
+        // if (method === "plugin") {
+        //   $("#node-input-plugin").parent().show();
+        // } else {
+        //   $("#node-input-plugin").parent().hide();
+        // }
+        if (method === "customAction") {
+          $("#node-input-action").parent().show();
+        } else {
+          $("#node-input-action").parent().hide();
+        }
+      });
+      $("#node-input-method").trigger("change");
+    },
+  });
+</script>
+
+<div class="form-row">
+  <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+  <input type="text" id="node-input-name" placeholder="Name" />
+</div>
+<div class="form-row">
+  <label for="node-input-baseURL"><i class="icon-globe"></i> Base URL</label>
+  <input type="text" id="node-input-baseURL" placeholder="Base URL" />
+</div>
+<div class="form-row">
+  <label for="node-input-method"><i class="icon-cogs"></i> Method</label>
+  <select id="node-input-method">
+    <option value="list">List</option>
+    <option value="get">Get</option>
+    <option value="create">Create</option>
+    <option value="update">Update</option>
+    <option value="delete">Delete</option>
+    <option value="customAction">Custom Action</option>
+    <option value="plugin">Plugin</option>
+  </select>
+</div>
+<div class="form-row">
+  <label for="node-input-resource"
+    ><i class="icon-database"></i> Resource</label
+  >
+  <input type="text" id="node-input-resource" placeholder="Resource" />
+</div>
+<div class="form-row">
+  <label for="node-input-action"><i class="icon-wrench"></i> Action</label>
+  <input type="text" id="node-input-action" placeholder="Custom Action" />
+</div>
+<div class="form-row">
+  <label for="node-input-plugin"><i class="icon-plug"></i> Plugin</label>
+  <input type="text" id="node-input-plugin" placeholder="Plugin" />
+</div>
+<div class="form-row">
+  <label for="node-input-schema"><i class="icon-sitemap"></i> Schema</label>
+  <input type="checkbox" id="node-input-schema" />
+</div>
+<div class="form-row">
+  <label for="node-input-model"><i class="icon-cube"></i> Model</label>
+  <input type="checkbox" id="node-input-model" />
+</div>
