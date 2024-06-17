@@ -1,5 +1,5 @@
 {
-  "name": "red-contrib-nocobase",
+  "name": "node-red-contrib-nocobase",
   "version": "0.1.0",
   "description": "A Node-RED node to interact with NocoBase API using NocoBase SDK",
   "main": "nodes/nocobase.js",
