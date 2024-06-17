@@ -1,20 +1,21 @@
 <script type="text/javascript">
   RED.nodes.registerType("nocobase", {
-    category: "function",
+    category: "nocobase",
     color: "#a6bbcf",
     defaults: {
       name: { value: "" },
-      baseURL: { value: "http://localhost:13000/api", required: true },
+      configNode: { value: "", type: "nocobase-config" },
       resource: { value: "", required: false },
       method: { value: "list", required: true },
       action: { value: "", required: false },
-      // plugin: { value: "", required: false },
+      plugin: { value: "", required: false },
       schema: { value: false, required: false },
       model: { value: false, required: false },
     },
     inputs: 1,
     outputs: 1,
-    icon: "file.png",
+    icon: "logo.png",
+    color: "#F3B567",
     label: function () {
       return this.name || "nocobase";
     },
@@ -26,11 +27,11 @@
         } else {
           $("#node-input-resource").parent().show();
         }
-        // if (method === "plugin") {
-        //   $("#node-input-plugin").parent().show();
-        // } else {
-        //   $("#node-input-plugin").parent().hide();
-        // }
+        if (method === "plugin") {
+          $("#node-input-plugin").parent().show();
+        } else {
+          $("#node-input-plugin").parent().hide();
+        }
         if (method === "customAction") {
           $("#node-input-action").parent().show();
         } else {
@@ -41,46 +42,72 @@
     },
   });
 </script>
+<script type="text/html" data-template-name="nocobase">
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-configNode">
+      <i class="fa fa-server"></i>
+      Server
+    </label>
 
-<div class="form-row">
-  <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-  <input type="text" id="node-input-name" placeholder="Name" />
-</div>
-<div class="form-row">
-  <label for="node-input-baseURL"><i class="icon-globe"></i> Base URL</label>
-  <input type="text" id="node-input-baseURL" placeholder="Base URL" />
-</div>
-<div class="form-row">
-  <label for="node-input-method"><i class="icon-cogs"></i> Method</label>
-  <select id="node-input-method">
-    <option value="list">List</option>
-    <option value="get">Get</option>
-    <option value="create">Create</option>
-    <option value="update">Update</option>
-    <option value="delete">Delete</option>
-    <option value="customAction">Custom Action</option>
-    <option value="plugin">Plugin</option>
-  </select>
-</div>
-<div class="form-row">
-  <label for="node-input-resource"
-    ><i class="icon-database"></i> Resource</label
-  >
-  <input type="text" id="node-input-resource" placeholder="Resource" />
-</div>
-<div class="form-row">
-  <label for="node-input-action"><i class="icon-wrench"></i> Action</label>
-  <input type="text" id="node-input-action" placeholder="Custom Action" />
-</div>
-<div class="form-row">
-  <label for="node-input-plugin"><i class="icon-plug"></i> Plugin</label>
-  <input type="text" id="node-input-plugin" placeholder="Plugin" />
-</div>
-<div class="form-row">
-  <label for="node-input-schema"><i class="icon-sitemap"></i> Schema</label>
-  <input type="checkbox" id="node-input-schema" />
-</div>
-<div class="form-row">
-  <label for="node-input-model"><i class="icon-cube"></i> Model</label>
-  <input type="checkbox" id="node-input-model" />
-</div>
+    <input type="text" id="node-input-configNode" placeholder="Name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-method"><i class="icon-cogs"></i> Method</label>
+    <select id="node-input-method">
+      <option value="list">List</option>
+      <option value="get">Get</option>
+      <option value="create">Create</option>
+      <option value="update">Update</option>
+      <option value="delete">Delete</option>
+      <option value="customAction">Custom Action</option>
+      <option value="plugin">Plugin</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-resource"
+      ><i class="icon-database"></i> Resource</label
+    >
+    <input type="text" id="node-input-resource" placeholder="Resource" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-action"><i class="icon-wrench"></i> Action</label>
+    <input type="text" id="node-input-action" placeholder="Custom Action" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-plugin"><i class="icon-plug"></i> Plugin</label>
+    <input type="text" id="node-input-plugin" placeholder="Plugin" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-schema"><i class="icon-sitemap"></i> Schema</label>
+    <input type="checkbox" id="node-input-schema" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-model"><i class="icon-cube"></i> Model</label>
+    <input type="checkbox" id="node-input-model" />
+  </div>
+</script>
+<script type="text/markdown" data-help-name="nocobase">
+  use NocoBase
+
+  use this format:
+
+  : topic (string) : JSON-pointer of the property to query
+
+  ### Inputs
+
+  - `resource`: (Optional) The resource to interact with.
+  - `method`: (Optional) The method to use.
+  - `params`: (Optional) Parameters for the request.
+  - `action`: (Optional) Custom action to perform.
+  - `plugin`: (Optional) Plugin to use.
+  - `schema`: (Optional) Indicates schema management.
+  - `model`: (Optional) Indicates data modeling.
+
+  ### Outputs
+
+  - `payload`: The response data from the NocoBase API.
+</script>

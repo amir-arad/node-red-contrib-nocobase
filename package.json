@@ -14,9 +14,14 @@
   "engines": {
     "node": ">= 18"
   },
+  "files": [
+    "nodes",
+    "examples"
+  ],
   "node-red": {
     "nodes": {
-      "nocobase": "nodes/nocobase.js"
+      "nocobase-config": "./nodes/nocobase-config.js",
+      "nocobase": "./nodes/nocobase.js"
     }
   },
   "keywords": [
@@ -26,7 +31,8 @@
   "author": "amir-arad <greenshade@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "node --test test/"
+    "test": "node --test test/",
+    "dev": "bash ./dev.sh"
   },
   "dependencies": {
     "@nocobase/sdk": "1.2.4-alpha"

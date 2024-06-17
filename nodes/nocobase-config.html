@@ -1,0 +1,46 @@
+<script type="text/javascript">
+  RED.nodes.registerType("nocobase-config", {
+    category: "config",
+    defaults: {
+      baseURL: { value: "http://localhost:13000/api", required: true },
+      username: { value: null, required: false },
+      password: { value: null, required: false },
+    },
+    label: function () {
+      return this.baseURL;
+    },
+  });
+</script>
+
+<script type="text/html" data-template-name="nocobase-config">
+  <div class="form-row">
+    <label for="node-config-input-baseURL"
+      ><i class="icon-globe"></i> Base URL</label
+    >
+    <input type="text" id="node-config-input-baseURL" placeholder="Base URL" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-username"
+      ><i class="icon-user"></i>Username</label
+    >
+    <input type="text" id="node-config-input-username" placeholder="nocobase" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-password"
+      ><i class="icon-lock"></i>Password</label
+    >
+    <input
+      type="password"
+      id="node-config-input-password"
+      placeholder="admin123"
+    />
+  </div>
+</script>
+
+<script type="text/markdown" data-help-name="nocobase-config">
+  ## Node Configuration
+
+  - `Base URL`: The base URL of your NocoBase API
+  - `Username`: The Username
+  - `Password`: The Password
+</script>

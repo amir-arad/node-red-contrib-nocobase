@@ -70,3 +70,9 @@ settings.js
 
 # npm workspaces
 *.code-workspace
+
+*.sock
+docker/ncb_data/*
+!docker/ncb_data/.gitkeep
+docker/node_red_data/*.backup
+notebook.js

@@ -1,0 +1,82 @@
+[
+    {
+        "id": "7e3365f1c1e49937",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7bf828e1076ddca4",
+        "type": "nocobase-config",
+        "baseURL": "http://app:80/api",
+        "username": "nocobase",
+        "password": "admin123"
+    },
+    {
+        "id": "c69e1ae3bc590168",
+        "type": "nocobase",
+        "z": "7e3365f1c1e49937",
+        "name": "get roles",
+        "configNode": "7bf828e1076ddca4",
+        "resource": "roles",
+        "method": "list",
+        "action": "",
+        "plugin": "",
+        "schema": false,
+        "model": false,
+        "x": 400,
+        "y": 380,
+        "wires": [
+            [
+                "6de2e7a26d2dc771"
+            ]
+        ]
+    },
+    {
+        "id": "8b71e99b342790fe",
+        "type": "inject",
+        "z": "7e3365f1c1e49937",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 420,
+        "wires": [
+            [
+                "c69e1ae3bc590168"
+            ]
+        ]
+    },
+    {
+        "id": "6de2e7a26d2dc771",
+        "type": "debug",
+        "z": "7e3365f1c1e49937",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 380,
+        "wires": []
+    }
+]

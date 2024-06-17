@@ -1,0 +1,49 @@
+networks:
+  nocobase:
+    driver: bridge
+
+services:
+
+  app:
+    image: nocobase/nocobase:1.2.4-alpha
+    environment:
+      APP_KEY: pocmishmesh
+    ports:
+      - "13000:80"
+    restart: unless-stopped
+    volumes:
+      - ncb_data:/app/nocobase/storage
+    networks:
+      - nocobase
+    healthcheck:
+      test: node -e 'require("http").request({method:"POST",path:"/api/authenticators:publicList",port:80},res=>process.exit(res.statusCode<400?0:1)).end()'
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  nodered:
+    image: nodered/node-red:3.1.10-18
+    ports:
+      - "1880:1880"
+    restart: unless-stopped
+    volumes:
+      - node_red_data:/data
+    networks:
+      - nocobase
+    depends_on:
+      app:
+        condition: service_healthy
+
+volumes:
+  ncb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./ncb_data
+  node_red_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./node_red_data

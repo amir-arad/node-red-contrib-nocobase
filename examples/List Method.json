@@ -1,0 +1,25 @@
+[
+  {
+    "id": "1",
+    "type": "nocobase",
+    "z": "flow_id",
+    "name": "List Test",
+    "method": "list",
+    "resource": "test",
+    "baseURL": "http://localhost:13000/api",
+    "wires": [["2"]]
+  },
+  {
+    "id": "2",
+    "type": "debug",
+    "z": "flow_id",
+    "name": "Debug",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "wires": []
+  }
+]
