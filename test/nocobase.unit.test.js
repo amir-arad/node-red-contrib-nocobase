@@ -3,24 +3,24 @@ const nocoBaseNode = require("../nodes/nocobase");
 const { APIClient } = require("@nocobase/sdk");
 const sinon = require("sinon");
 const assert = require("node:assert");
+const { awaitInput } = require("./test-helper");
 
 const { afterEach, before, beforeEach, describe, it } = require("node:test");
 
-describe("NocoBase Node", function () {
-  before(async () => {
-    helper.init(require.resolve("node-red"));
-  });
+helper.init(require.resolve("node-red"));
 
-  beforeEach((done) => {
-    helper.startServer(done);
+describe("NocoBase Node", function () {
+
+  beforeEach(async () => {
+    await new Promise((done) => helper.startServer(done));
   });
 
   afterEach(async () => {
     // order matters
+    sinon.restore();
     await helper.unload();
     await new Promise((done) => helper.stopServer(done));
     await helper.unload();
-    sinon.restore();
   });
 
   it("should load the node", async () => {
@@ -51,12 +51,12 @@ describe("NocoBase Node", function () {
     sinon.stub(APIClient.prototype, "resource").returns({
       list: async () => ({ data: { results: [1, 2, 3] } }),
     });
+    
+    n1.receive({ payload: {} });
 
-    n2.on("input", (msg) => {
+    await awaitInput(n2, (msg) => {
       assert.deepStrictEqual(msg.payload, { results: [1, 2, 3] });
     });
-
-    n1.receive({ payload: {} });
   });
 
   it("should handle get method", async () => {
@@ -81,11 +81,11 @@ describe("NocoBase Node", function () {
       get: async () => ({ data: { id: 1, name: "test" } }),
     });
 
-    n2.on("input", (msg) => {
+    n1.receive({ payload: { id: 1 } });
+    
+    await awaitInput(n2, (msg) => {
       assert.deepStrictEqual(msg.payload, { id: 1, name: "test" });
     });
-
-    n1.receive({ payload: { id: 1 } });
   });
 
   it("should handle create method", async () => {
@@ -110,11 +110,11 @@ describe("NocoBase Node", function () {
       create: async () => ({ data: { id: 1, name: "new item" } }),
     });
 
-    n2.on("input", (msg) => {
+    n1.receive({ payload: { data: { name: "new item" } } });
+    
+    await awaitInput(n2, (msg) => {
       assert.deepStrictEqual(msg.payload, { id: 1, name: "new item" });
     });
-
-    n1.receive({ payload: { data: { name: "new item" } } });
   });
 
   it("should handle update method", async () => {
@@ -139,11 +139,11 @@ describe("NocoBase Node", function () {
       update: async () => ({ data: { id: 1, name: "updated item" } }),
     });
 
-    n2.on("input", (msg) => {
+    n1.receive({ payload: { id: 1, data: { name: "updated item" } } });
+    
+    await awaitInput(n2, (msg) => {
       assert.deepStrictEqual(msg.payload, { id: 1, name: "updated item" });
     });
-
-    n1.receive({ payload: { id: 1, data: { name: "updated item" } } });
   });
 
   it("should handle delete method", async () => {
@@ -167,12 +167,12 @@ describe("NocoBase Node", function () {
     sinon.stub(APIClient.prototype, "resource").returns({
       destroy: async () => ({ data: { success: true } }),
     });
-
-    n2.on("input", (msg) => {
+    
+    n1.receive({ payload: { id: 1 } });
+    
+    await awaitInput(n2, (msg) => {
       assert.deepStrictEqual(msg.payload, { success: true });
     });
-
-    n1.receive({ payload: { id: 1 } });
   });
 
   it("should handle custom action", async () => {
@@ -197,11 +197,11 @@ describe("NocoBase Node", function () {
       customAction: async () => ({ data: { custom: "action" } }),
     });
 
-    n2.on("input", (msg) => {
+    n1.receive({ payload: {} });
+
+    await awaitInput(n2, (msg) => {
       assert.deepStrictEqual(msg.payload, { custom: "action" });
     });
-
-    n1.receive({ payload: {} });
   });
 
   it.skip("should handle plugin request", async () => {
@@ -225,10 +225,11 @@ describe("NocoBase Node", function () {
       request: async () => ({ data: { plugin: "response" } }),
     });
 
-    n2.on("input", (msg) => {
-      assert.deepStrictEqual(msg.payload, { plugin: "response" });
-    });
 
     n1.receive({ payload: {} });
+    
+    await awaitInput(n2, (msg) => {
+      assert.deepStrictEqual(msg.payload, { plugin: "response" });
+    });
   });
 });
