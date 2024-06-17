@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-nocobase",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Node-RED node to interact with NocoBase API using NocoBase SDK",
   "main": "nodes/nocobase.js",
   "publishConfig": {
