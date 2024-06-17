@@ -7,6 +7,10 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:amir-arad/node-red-contrib-nocobase.git"
+  },
   "engines": {
     "node": ">= 18"
   },
