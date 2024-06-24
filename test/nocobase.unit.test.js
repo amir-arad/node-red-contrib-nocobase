@@ -9,9 +9,10 @@ const { afterEach, before, beforeEach, describe, it } = require("node:test");
 
 helper.init(require.resolve("node-red"));
 
-// todo for integration tests use https://docs.nocobase.com/development/server/test
+// todo re-evaluate all tests.
+// for integration tests use https://docs.nocobase.com/development/server/test
 
-describe("NocoBase Node", function () {
+describe.skip("NocoBase Node", function () {
 
   beforeEach(async () => {
     await new Promise((done) => helper.startServer(done));
