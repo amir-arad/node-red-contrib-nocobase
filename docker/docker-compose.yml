@@ -18,7 +18,7 @@ services:
     healthcheck:
       test: node -e 'require("http").request({method:"POST",path:"/api/authenticators:publicList",port:80},res=>process.exit(res.statusCode<400?0:1)).end()'
       interval: 5s
-      timeout: 5s
+      timeout: 10s
       retries: 10
 
   nodered:
